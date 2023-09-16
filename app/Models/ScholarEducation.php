@@ -21,7 +21,8 @@ class ScholarEducation extends Model
         'is_enrolled',
         'is_shiftee',
         'is_transferee',
-        'scholar_id'
+        'scholar_id',
+        'is_synced'
     ];
 
     public function scholar()

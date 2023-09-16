@@ -30,6 +30,7 @@ return new class extends Migration
             $table->boolean('is_permanent')->default(1);
             $table->boolean('is_within')->default(0);
             $table->boolean('is_completed')->default(0);
+            $table->boolean('is_synced')->default(1);
             $table->bigInteger('scholar_id')->unsigned()->index();
             $table->foreign('scholar_id')->references('id')->on('scholars')->onDelete('cascade');
             $table->timestamps();

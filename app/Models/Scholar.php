@@ -17,7 +17,8 @@ class Scholar extends Model
         'category_id',
         'status_id',
         'awarded_year',
-        'is_completed'
+        'is_completed',
+        'is_synced'
     ];
 
     public function profile()

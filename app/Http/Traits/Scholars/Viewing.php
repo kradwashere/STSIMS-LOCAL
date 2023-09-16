@@ -3,6 +3,9 @@
 namespace App\Http\Traits\Scholars;
 
 use App\Models\Scholar;
+use App\Models\ScholarAddress;
+use App\Models\ScholarEducation;
+use App\Models\ScholarProfile;
 use App\Http\Resources\Scholar\IndexResource;
 
 trait Viewing { 
@@ -59,7 +62,8 @@ trait Viewing {
         return [
             'statuses' => $this->statuses($request),
             'types' => $this->types($request),
-            'active' => []
+            'active' => [],
+            'sync' => $this->sync(),
         ];
     } 
 
@@ -82,5 +86,14 @@ trait Viewing {
             Scholar::where('is_undergrad',0)->count(),
         ];
         return $array;
+    }
+
+    public static function sync(){
+        $scholar = Scholar::where('is_synced',0)->count();
+        $profile = ScholarProfile::where('is_synced',0)->count();
+        $address = ScholarAddress::where('is_synced',0)->count();
+        $education = ScholarEducation::where('is_synced',0)->count();
+        $total = $scholar + $profile + $address + $education;
+        return $total;
     }
 }

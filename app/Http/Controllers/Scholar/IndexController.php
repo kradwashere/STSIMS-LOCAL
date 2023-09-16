@@ -7,10 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Traits\Scholars\Api;
 use App\Http\Traits\Scholars\Truncate;
 use App\Http\Traits\Scholars\Viewing;
+use App\Http\Traits\Scholars\Updating;
 
 class IndexController extends Controller
 {
-    use Api, Truncate, Viewing; 
+    use Api, Truncate, Viewing, Updating; 
 
     public function index(Request $request){
         $type = $request->type;
@@ -34,7 +35,11 @@ class IndexController extends Controller
             break;
             case 'api':
                 return $this->api($request);
-             break;
+            break;
+            case 'update':
+                return $this->updating($request);
+            break;
         }
     }
+
 }

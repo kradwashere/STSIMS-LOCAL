@@ -23,10 +23,15 @@ class ListCourse extends Model
         return $this->hasMany('App\Models\SchoolCourse', 'course_id');
     } 
     
-    // public function getNameAttribute($value)
-    // {
-    //     return ucwords(strtolower($value));
-    // }
+    public function getNameAttribute($value)
+    {
+        $wordsToReplace = array("BEED", "BS", "BSE");
+        $inputString = ucwords(strtolower($value));
+        foreach ($wordsToReplace as $word) {
+            $inputString = str_ireplace($word, strtoupper($word), $inputString);
+        }
+        return $inputString;
+    }
 
     public function getUpdatedAtAttribute($value)
     {

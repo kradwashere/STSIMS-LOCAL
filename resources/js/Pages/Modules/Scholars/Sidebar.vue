@@ -53,18 +53,18 @@
         <div class="mt-auto">
             <b-row class="g-1">
             <b-col lg="4">
-                <button @click="truncate()" class="btn btn-soft-primary btn-sm w-100" type="button">
-                    <div class="btn-content"> Truncate </div>
-                </button>
-            </b-col>
-            <b-col lg="4">
                 <button @click="download()" class="btn btn-soft-primary btn-sm w-100" type="button">
                     <div class="btn-content"> Download </div>
                 </button>
             </b-col>
             <b-col lg="4">
-                <button class="btn btn-primary btn-sm w-100" type="button">
-                    <div class="btn-content"> Import </div>
+                <button @click="truncate()" class="btn btn-soft-primary btn-sm w-100" type="button">
+                    <div class="btn-content"> Truncate </div>
+                </button>
+            </b-col>
+            <b-col lg="4">
+                <button @click="sync(statistics.sync)" class="btn btn-primary btn-sm w-100" type="button">
+                    <div class="btn-content"> Sync ({{statistics.sync}})</div>
                 </button>
             </b-col>
         </b-row>
@@ -72,19 +72,22 @@
     </div>
     <Download ref="download" @info="refresh()"/>
     <Truncate ref="truncate" @info="refresh()"/>
+    <Sync ref="sync"/>
 </template>
 <script>
+import Sync from './Modals/Sync.vue';
 import Download from './Modals/Download.vue';
 import Truncate from './Modals/Truncate.vue';
 export default {
-    components : { Download, Truncate },
+    components : { Download, Truncate, Sync},
     data(){
         return {
             currentUrl: window.location.origin,
-            statistics: { statuses: [], types: [], active:[] },
+            statistics: { statuses: [], types: [], active:[], sync: '' },
             options: ['Ongoing Scholars','Graduated Scholars','Total Scholars'],
             options2: ['Undegraduate Scholarhip','Junior Level Science Scholarship'],
-            colors: ['text-primary','text-info','text-success']
+            colors: ['text-primary','text-info','text-success'],
+            type: ''
         }
     },
     created(){
@@ -106,9 +109,18 @@ export default {
         truncate(){
             this.$refs.truncate.show();
         },
+        sync(count){
+            this.$refs.sync.show(count);
+        },
+        updateSync(){
+            this.statistics.sync = this.statistics.sync + 1;
+        },
         refresh(){
             this.fetch();
             this.$emit('info',true);
+        },
+        updateUnsync(data){
+            this.statistics.sync = this.statistics.sync - parseInt(data);
         },
         print(){
             

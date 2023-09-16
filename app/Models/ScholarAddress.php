@@ -20,7 +20,8 @@ class ScholarAddress extends Model
         'is_permanent',
         'is_within',
         'scholar_id',
-        'information'
+        'information',
+        'is_synced'
     ];
 
     public function scholar()

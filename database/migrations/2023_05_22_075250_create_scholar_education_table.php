@@ -32,6 +32,7 @@ return new class extends Migration
             $table->boolean('is_enrolled')->default(0);
             $table->boolean('is_shiftee')->default(0);
             $table->boolean('is_transferee')->default(0);
+            $table->boolean('is_synced')->default(1);
             $table->bigInteger('scholar_id')->unsigned()->index();
             $table->foreign('scholar_id')->references('id')->on('scholars')->onDelete('cascade');
             $table->timestamps();

@@ -20,7 +20,8 @@ class ScholarProfile extends Model
         'birthday',
         'information',
         'is_completed',
-        'scholar_id'
+        'scholar_id',
+        'is_synced'
     ];
 
     public function scholar()

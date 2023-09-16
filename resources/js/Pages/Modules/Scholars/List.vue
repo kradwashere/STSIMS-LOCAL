@@ -41,7 +41,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in lists" v-bind:key="user.id" :class="[(user.is_completed == 0) ? 'table-warnings' : '']">
+                <tr v-for="(user,index) in lists" v-bind:key="index" :class="[(user.is_completed == 0) ? 'table-warnings' : '']">
                     <td>
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 chat-user-img online user-own-img align-self-center me-3 ms-0">
@@ -65,9 +65,10 @@
                     </td>
                     <td class="text-end">
                         <b-button v-if="user.user == null" @click="authenticate(user)" variant="soft-primary" v-b-tooltip.hover title="Create Scholar Account" size="sm" class="edit-list me-1"><i class="ri-user-add-fill align-bottom"></i> </b-button>
-                        <b-button v-if="user.account_no == null && user.status.type == 'Ongoing'" @click="update(user,'account_no')" variant="soft-danger" v-b-tooltip.hover title="Update Account No." size="sm" class="remove-list me-1"><i class="ri-bank-card-2-fill align-bottom"></i></b-button>
-                        <b-button v-if="user.education.is_completed == 0" @click="update(user,'education')" variant="soft-danger" v-b-tooltip.hover title="Update Education" size="sm" class="remove-list me-1"><i class="ri-hotel-fill align-bottom"></i></b-button>
-                        <b-button v-if="user.addresses[0].is_completed == 0" @click="update(user,'address')" variant="soft-danger" v-b-tooltip.hover title="Update Address" size="sm" class="remove-list me-1"><i class="ri-map-pin-fill align-bottom"></i></b-button>
+                        <b-button @click="showUpdate(user,'status',index)" variant="soft-warning" v-b-tooltip.hover title="Update Status" size="sm" class="remove-list me-1"><i class="ri-heart-fill align-bottom"></i></b-button>
+                        <b-button v-if="user.account_no == null && user.status.type == 'Ongoing'" @click="showUpdate(user,'scholar',index)" variant="soft-danger" v-b-tooltip.hover title="Update Account No." size="sm" class="remove-list me-1"><i class="ri-bank-card-2-fill align-bottom"></i></b-button>
+                        <b-button v-if="user.education.is_completed == 0" @click="showUpdate(user,'education',index)" variant="soft-danger" v-b-tooltip.hover title="Update Education" size="sm" class="remove-list me-1"><i class="ri-hotel-fill align-bottom"></i></b-button>
+                        <b-button v-if="user.addresses[0].is_completed == 0" @click="showUpdate(user,'address',index)" variant="soft-danger" v-b-tooltip.hover title="Update Address" size="sm" class="remove-list me-1"><i class="ri-map-pin-fill align-bottom"></i></b-button>
                         <Link v-if="user.is_completed == 1" :href="`/scholars/${user.code}`"><b-button variant="soft-info" v-b-tooltip.hover title="View" size="sm" class="remove-list me-1"><i class="ri-eye-fill align-bottom"></i></b-button></Link>
                         <!-- <b-button variant="soft-primary" v-b-tooltip.hover title="Edit" size="sm" class="edit-list"><i class="ri-pencil-fill align-bottom"></i> </b-button> -->
                     </td>
@@ -76,13 +77,15 @@
         </table>
         <Pagination class="ms-2 me-2" v-if="meta" @fetch="fetch" :lists="lists.length" :links="links" :pagination="meta" />
     </div>
+    <Update ref="update" :statuses="statuses" :dropdowns="dropdowns"/>
     <Filter :regions="regions" :programs="programs" @status="subfilter" ref="filter"/>
 </template>
 <script>
+import Update from './Modals/Update.vue';
 import Filter from './Modals/Filter.vue';
 import Pagination from "@/Shared/Components/Pagination.vue";
 export default {
-    components: { Pagination, Filter },
+    components: { Pagination, Filter, Update },
     props : ['regions', 'programs', 'dropdowns', 'statuses'],
     data(){
         return {
@@ -100,7 +103,9 @@ export default {
                 keyword: null,
                 sort: 'asc'
             },
-            subfilters: []
+            subfilters: [],
+            flag: '',
+            index: ''
         }
     },
     computed: {
@@ -118,12 +123,41 @@ export default {
         },
     },
     watch: {
-        keyword(newVal){
+        "filter.keyword"(newVal){
             this.checkSearchStr(newVal)
         },
-        year(newVal){
+        "filter.year"(newVal){
             this.checkSearchStr(newVal)
-        }
+        },
+        data: {
+            deep: true,
+            handler(val = null) {
+                if(val != null && val !== ''){
+                    switch(this.flag){
+                        case 'address':
+                            this.lists[this.index].addresses[0] = val.data;
+                            this.$emit('info',true);
+                        break;
+                        case 'education':
+                            this.lists[this.index].education = val.data;
+                            this.$emit('info',true);
+                        break;
+                        case 'scholar':
+                            this.lists[this.index].account_no = val.account_no;
+                            this.$emit('info',true);
+                        break;
+                         case 'status':
+                            this.lists[this.index].status = val.status;
+                            this.$emit('info',true);
+                        break;
+                        default:
+                            this.$emit('unsync',val);
+                        break;
+                    }
+                    this.flag = '';
+                }
+            },
+        },
     },
     created(){
         this.fetch();
@@ -139,7 +173,7 @@ export default {
                 'program': (this.filter.program == null) ? null : this.filter.program,
                 'subprogram': (this.filter.subprogram == null) ? null : this.filter.subprogram,
                 'category': (this.filter.category == null) ? null : this.filter.category,
-                'type': (this.filter.type == null) ? null : this.type,
+                'type': (this.filter.type == null) ? null : this.filter.type,
                 'year': (this.filter.year === '' || this.filter.year == null) ? '' : this.filter.year,
                 'counts': parseInt(((window.innerHeight-350)/56)),
                 'sort': this.filter.sort
@@ -169,6 +203,11 @@ export default {
         },
         showFilter(){
             this.$refs.filter.show();
+        },
+        showUpdate(data,type,index){
+            this.flag = type;
+            this.index = index;
+            this.$refs.update.show(data,type);
         },
         refresh(){
             this.filter = {
