@@ -10,6 +10,7 @@ use App\Models\SchoolCourse;
 use App\Models\SchoolCampus;
 use App\Models\SchoolSemester;
 use App\Models\ScholarEnrollment;
+use App\Http\Resources\DefaultResource;
 use App\Http\Resources\School\ListResource;
 use App\Http\Resources\School\IndexResource;
 use App\Http\Resources\School\CoursesResource;
@@ -169,5 +170,57 @@ trait Viewing {
         })
         ->orderBy('scholars_count', 'desc')->get();
         return $data;
+    }
+
+    public function listschools($request){
+        $data = SchoolCampus::with('school')->withCount([
+        'scholars' => function ($query) use ($request){
+            $query->when($request->scholar, function ($query, $scholar) {
+                $query->whereHas('scholar',function ($query) use ($scholar) {
+                    $query->whereHas('status',function ($query) use ($scholar) {
+                        ($scholar == 'ongoing') ? $query->where('type','Ongoing') : $query->where('name','Graduated');
+                    });
+                });
+            });
+        }])
+        ->when($request->sort, function ($query, $sort) {
+            $query->orderBy('scholars_count', $sort);
+        })
+        ->when($request->scholar, function ($query, $scholar) {
+            $query->whereHas('scholars',function ($query) use ($scholar) {
+                $query->whereHas('scholar',function ($query) use ($scholar) {
+                    $query->whereHas('status',function ($query) use ($scholar) {
+                        ($scholar == 'ongoing') ? $query->where('type','Ongoing') : $query->where('name','Graduated');
+                    });
+                });
+            });
+        })
+        ->paginate(10);
+        return DefaultResource::collection($data);
+    }
+
+    public function listcourses($request){
+        $data = ListCourse::withCount([
+        'scholars' => function ($query) use ($request){
+            $query->when($request->scholar, function ($query, $scholar) {
+                $query->whereHas('scholar',function ($query) use ($scholar) {
+                    $query->whereHas('status',function ($query) use ($scholar) {
+                        ($scholar == 'ongoing') ? $query->where('type','Ongoing') : $query->where('name','Graduated');
+                    });
+                });
+            });
+        }])
+        ->when($request->scholar, function ($query, $scholar) {
+            $query->whereHas('scholars',function ($query) use ($scholar) {
+                $query->whereHas('scholar',function ($query) use ($scholar) {
+                    $query->whereHas('status',function ($query) use ($scholar) {
+                        ($scholar == 'ongoing') ? $query->where('type','Ongoing') : $query->where('name','Graduated');
+                    });
+                });
+            });
+        })
+        ->orderBy('scholars_count', $request->sort)
+        ->paginate(10);
+        return DefaultResource::collection($data);
     }
 }

@@ -34,6 +34,11 @@ class SchoolSemester extends Model
         return $this->hasMany('App\Models\ScholarBenefit', 'school_semester_id');
     } 
 
+    public function enrollees()
+    {
+        return $this->hasMany('App\Models\Enrollee', 'school_semester_id');
+    } 
+
     // public function getStartAtAttribute($value)
     // {
     //     return date('M Y', strtotime($value));

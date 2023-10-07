@@ -15,6 +15,9 @@
             </table>
         </div>    
         <hr class="text-muted mt-n1 mb-4"/> 
+        <button @click="truncate()" class="btn btn-soft-primary btn-sm w-100" type="button">
+            <div class="btn-content"> Truncate </div>
+        </button>
         <div class="mt-auto">
             <h6 class="fs-11 text-muted text-uppercase mb-3">SCHOOLS SEMESTER</h6>
             <div class="d-flex align-items-center">
@@ -30,9 +33,12 @@
             </div>
         </div>
     </div>
+    <Truncate ref="truncate"/>
 </template>
 <script>
+import Truncate from '../Schools/Modals/Truncate.vue';
 export default {
+    components: { Truncate },
     data(){
         return {
             currentUrl: window.location.origin,
@@ -55,6 +61,9 @@ export default {
                 this.active = response.data.active;
             })
             .catch(err => console.log(err));
+        },
+        truncate(){
+            this.$refs.truncate.show();
         },
     }
 }

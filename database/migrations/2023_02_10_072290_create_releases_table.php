@@ -20,6 +20,7 @@ return new class extends Migration
             $table->json('attachment');
             $table->string('dv_no')->nullable();
             $table->decimal('total',12,2);
+            $table->boolean('is_checked')->default(0);
             $table->bigInteger('added_by')->unsigned()->index();
             $table->foreign('added_by')->references('id')->on('users')->onDelete('cascade');
             $table->tinyInteger('status_id')->unsigned()->index();

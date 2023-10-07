@@ -230,9 +230,8 @@
                     </b-col>
                     <b-col sm="auto">
                         <div>
-                            <b-link href="https://1.envato.market/velzon-admin" target="_blank"
-                                class="btn bg-gradient btn-danger"><i
-                                    class="ri-shopping-cart-2-line align-middle me-1"></i>
+                            <b-link target="_blank"
+                                class="btn bg-gradient btn-danger">
                                 Apply Now</b-link>
                         </div>
                     </b-col>

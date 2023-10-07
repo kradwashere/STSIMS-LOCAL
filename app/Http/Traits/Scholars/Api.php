@@ -65,17 +65,27 @@ trait Api {
                     $arr = (array)$data;
                     $sub = array_splice($arr,11);
                     $spas_id = $arr['spas_id'];
+                    unset($arr['id']);
                     $count = Scholar::where('spas_id',$spas_id)->count();
                     if($count == 0){
                         $address = $sub['address'];
+                        unset($address->id);
                         $education = $sub['education'];
+                        unset($education->id);
                         $profile = $sub['profile'];
+                        unset($profile->id);
+                
 
                         // dd($address,$education,$profile);
                         \DB::beginTransaction();
                         $q = Scholar::insertOrIgnore($arr);
                         Scholar::where('spas_id',$spas_id)->where('subprogram_id',26)->update(['is_undergrad' => 0]);
+                        $isko =  Scholar::select('id')->where('spas_id',$spas_id)->first();
+
                         if($q){
+                            $address->scholar_id = $isko->id;
+                            $education->scholar_id = $isko->id;
+                            $profile->scholar_id = $isko->id;
                             $a = ScholarAddress::insertOrIgnore((array)$address);
                             if($a){
                                 $b = ScholarProfile::insertOrIgnore((array)$profile);
@@ -131,7 +141,8 @@ trait Api {
             'scholars' => $scholars,
             'addresses' => $addresses,
             'educations' => $educations,
-            'profiles' => $profiles
+            'profiles' => $profiles,
+            'type' => 'sync'
         );
 
         try{

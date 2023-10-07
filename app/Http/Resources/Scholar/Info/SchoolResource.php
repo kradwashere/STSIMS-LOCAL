@@ -24,7 +24,7 @@ class SchoolResource extends JsonResource
             'name' => ucwords(strtolower($this->school->name)),
             'class' => $this->school->class->name,
             'avatar' => $this->school->avatar,
-            'shortcut' => $this->shortcut,
+            'shortcut' => $this->school->shortcut,
             'campus' => ($this->campus == 'MAIN') ?  ucwords(strtolower($this->campus)) : ucwords(strtolower($this->campus)),
             'address' => ucwords($this->address),
             'semester' => ($semester) ? $semester : false,

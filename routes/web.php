@@ -22,6 +22,13 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/monitoring', App\Http\Controllers\MonitoringController::class);
     Route::resource('/schools', App\Http\Controllers\SchoolController::class);
     Route::resource('/scholars', App\Http\Controllers\Scholar\IndexController::class);
+    Route::resource('/enrollments', App\Http\Controllers\Scholar\EnrollmentController::class);
+    Route::resource('/financial-benefits', App\Http\Controllers\Scholar\FinancialBenefitController::class);
+    Route::resource('/reimbursements', App\Http\Controllers\Scholar\ReimbursementController::class);
+    Route::resource('/qualifiers', App\Http\Controllers\QualifierController::class);
+    Route::resource('/insights', App\Http\Controllers\InsightController::class);
+    Route::resource('/accounting', App\Http\Controllers\AccountingController::class);
+    Route::resource('/monitoring', App\Http\Controllers\MonitoringController::class);
 });
 
 require __DIR__.'/auth.php';

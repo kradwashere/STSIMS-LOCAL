@@ -18,10 +18,15 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->boolean('is_grades_completed')->default(0);
             $table->boolean('is_benefits_released')->default(0);
+            $table->boolean('is_checked')->default(0);
+            $table->boolean('is_missed')->default(0);
+            $table->boolean('is_completed')->default(0);
             $table->integer('school_semester_id')->unsigned()->index();
             $table->foreign('school_semester_id')->references('id')->on('school_semesters')->onDelete('cascade');
             $table->bigInteger('scholar_id')->unsigned()->index();
             $table->foreign('scholar_id')->references('id')->on('scholars')->onDelete('cascade');
+            $table->bigInteger('enrollment_id')->unsigned()->index();
+            $table->foreign('enrollment_id')->references('id')->on('scholar_enrollments')->onDelete('cascade');
             $table->timestamps();
         });
     }

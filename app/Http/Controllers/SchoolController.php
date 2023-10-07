@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Traits\Schools\Save;
 use App\Http\Traits\Schools\Update;
 use App\Http\Traits\Schools\Viewing;
+use App\Http\Traits\Schools\Truncate;
 use App\Http\Requests\SchoolProfileRequest;
 
 class SchoolController extends Controller
 {
-    use Viewing, Save, Update;
+    use Viewing, Save, Update, Truncate;
 
     public function index(Request $request){
         switch($request->type){
@@ -38,6 +39,12 @@ class SchoolController extends Controller
             case 'topcourses':
                 return $this->topcourses($request);
             break;
+            case 'listschools':
+                return $this->listschools($request);
+            break;
+            case 'listcourses':
+                return $this->listcourses($request);
+            break;
             default :
             return inertia('Modules/Schools/Index');
         }
@@ -53,6 +60,9 @@ class SchoolController extends Controller
 
     public function store(SchoolProfileRequest $request){
         switch($request->type){
+            case 'truncate':
+                return $this->truncate($request);
+            break;
             case 'semester': 
                 return $this->semester($request);
             break;

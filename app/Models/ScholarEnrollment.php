@@ -43,6 +43,11 @@ class ScholarEnrollment extends Model
     return $this->hasMany('App\Models\ScholarEnrollmentList', 'enrollment_id')->where('grade',NULL)->count();
     }
 
+    public function enrollee()
+    {
+        return $this->hasOne('App\Models\Enrollee', 'enrollment_id');
+    } 
+
     public function semester()
     {
         return $this->belongsTo('App\Models\SchoolSemester', 'semester_id', 'id');

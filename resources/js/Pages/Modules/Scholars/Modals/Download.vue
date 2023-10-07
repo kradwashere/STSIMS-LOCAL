@@ -1,5 +1,5 @@
 <template>
-    <b-modal v-model="showModal" hide-footer header-class="p-3 bg-light" style="--vz-modal-width: 600px;" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>
+    <b-modal v-model="showModal" hide-footer header-class="p-3 bg-light" style="--vz-modal-width: 600px;" class="v-modal-custom" modal-class="zoomIn" centered>
         <template v-slot:header>
             <h5 class="modal-title">Download Scholars</h5>
             <button @click="hide()" type="button" class="btn-close" aria-label="Close"></button>

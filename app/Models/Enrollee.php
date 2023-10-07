@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Enrollee extends Model
 {
-    protected $fillable = ['is_grades_completed','is_benefits_released','school_semester_id','scholar_id'];
+    protected $fillable = ['is_grades_completed','is_benefits_released','is_checked','school_semester_id','scholar_id'];
 
     public function semester()
     {

@@ -22,6 +22,9 @@ class IndexController extends Controller
             case 'statistics':
                 return $this->statistics($request);
             break;
+            case 'search':
+                return $this->search($request);
+            break;
             default : 
             return inertia('Modules/Scholars/Index');
         }
@@ -38,6 +41,9 @@ class IndexController extends Controller
             break;
             case 'update':
                 return $this->updating($request);
+            break;
+            case 'course':
+                return $this->course($request);
             break;
         }
     }

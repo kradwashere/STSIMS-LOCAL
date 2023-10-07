@@ -10,7 +10,7 @@ class Release extends Model
     use HasFactory;
 
     protected $fillable = [
-        'dv_no', 'batch', 'added_by', 'attachment', 'total', 'status_id'
+        'dv_no', 'batch', 'added_by', 'attachment', 'total', 'status_id', 'is_checked'
     ];
 
     public function user()

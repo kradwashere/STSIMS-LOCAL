@@ -8,6 +8,8 @@ Route::prefix('lists')->group(function(){
         Route::get('/provinces/{code}', 'provinces');
         Route::get('/municipalities/{code}', 'municipalities');
         Route::get('/barangays/{code}', 'barangays');
+        Route::get('/subcourses/{school}/{course}', 'subcourses');
+        Route::get('/semester/{id}/{year}', 'semesteryear');
 
         Route::prefix('search')->group(function(){
             Route::post('/schools', 'schools');

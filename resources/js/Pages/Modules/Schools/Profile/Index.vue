@@ -18,13 +18,13 @@
                                         </b-link>
                                     </li>
                                     <li class="nav-item">
-                                        <b-link class="nav-link" data-bs-toggle="tab" href="#semesters" role="tab">
-                                            Semesters
+                                        <b-link class="nav-link" data-bs-toggle="tab" href="#courses" role="tab">
+                                            Courses
                                         </b-link>
                                     </li>
                                     <li class="nav-item">
-                                        <b-link class="nav-link" data-bs-toggle="tab" href="#courses" role="tab">
-                                            Courses
+                                        <b-link class="nav-link" data-bs-toggle="tab" href="#semesters" role="tab">
+                                            Semesters
                                         </b-link>
                                     </li>
                                     <li class="nav-item">

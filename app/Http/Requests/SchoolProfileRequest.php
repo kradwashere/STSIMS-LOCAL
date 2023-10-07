@@ -31,6 +31,8 @@ class SchoolProfileRequest extends FormRequest
                 'lower_limit' => 'sometimes|required',
                 'upper_limit' => 'sometimes|required'
             ];
+        }else if($this->type == 'truncate'){
+            return [];
         }else{
             return [
                 'course_id' => 'required',
