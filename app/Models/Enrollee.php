@@ -9,6 +9,11 @@ class Enrollee extends Model
 {
     protected $fillable = ['is_grades_completed','is_benefits_released','is_checked','school_semester_id','scholar_id'];
 
+    public function enrollment()
+    {
+        return $this->belongsTo('App\Models\ScholarEnrollment', 'enrollment_id', 'id');
+    }
+
     public function semester()
     {
         return $this->belongsTo('App\Models\SchoolSemester', 'school_semester_id', 'id');

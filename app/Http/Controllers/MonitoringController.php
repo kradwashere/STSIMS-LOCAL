@@ -56,6 +56,9 @@ class MonitoringController extends Controller
             case 'checked':
                 return $this->checked($request);
             break;
+            case 'termination':
+                return $this->terminate($request);
+            break;
         }
     }
 }

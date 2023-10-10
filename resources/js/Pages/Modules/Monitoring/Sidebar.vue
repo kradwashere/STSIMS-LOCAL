@@ -275,7 +275,9 @@ export default {
             .catch(err => console.log(err));
         },
         termination(data){
-            this.$refs.termination.show(data);
+            if(data.length > 0){
+                this.$refs.termination.show(data);
+            }
         }
     }
 }

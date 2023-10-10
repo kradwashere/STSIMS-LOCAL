@@ -10,7 +10,7 @@ class TerminationResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'scholar_id' => $this->id,
+            'id' => $this->id,
             'academic_year' => $this->semester->academic_year,
             'semester' => $this->semester->semester->name,
             'level' => $this->level->name,

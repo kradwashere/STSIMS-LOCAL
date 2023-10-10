@@ -4,6 +4,7 @@ namespace App\Http\Traits\Monitoring;
 
 use App\Models\Release;
 use App\Models\Enrollee;
+use App\Models\Scholar;
 use App\Models\ScholarBenefit;
 
 trait Save { 
@@ -27,10 +28,18 @@ trait Save {
                 }
             }
         }
-
-        
-        
     }
 
+    public function terminate($request){
+        switch($request->option){
+            case 2:
+                Scholar::where('id',$request->scholar_id)->update(['status_id' => 8]);
+            break;
+            case 3:
+
+            break;
+        }
+        Enrollee::where('enrollment_id',$request->enrollment_id)->update(['is_checked' => 1]);
+    }
     
 }

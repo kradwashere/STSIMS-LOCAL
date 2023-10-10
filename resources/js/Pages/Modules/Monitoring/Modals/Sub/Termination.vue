@@ -12,10 +12,11 @@
                             <th class="text-center">Semester</th>
                             <th class="text-center">Level</th>
                             <th class="text-center">Status</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody v-if="keyword != ''">
-                        <tr v-for="(list,index) in filteredArray" v-bind:key="list.id" class="fs-11" @click="view(list)">
+                        <tr v-for="(list,index) in filteredArray" v-bind:key="list.id" class="fs-11">
                             <td class="text-center">{{index + 1}}</td>
                             <td>
                                 <h5 class="fs-11 mb-0 text-dark">{{ list.scholar.firstname }} {{ list.scholar.lastname }}</h5>
@@ -25,10 +26,13 @@
                             <td class="text-center">
                                 <span :class="'badge bg-secondary bg-'+list.status.color">{{list.status.name}}</span>
                             </td>
+                            <td class="text-center">
+                                <b-button @click="view(list)" variant="soft-primary" v-b-tooltip.hover title="Create Scholar Account" size="sm" class="edit-list me-1"><i class="ri-user-add-fill align-bottom"></i> </b-button>
+                            </td>
                         </tr>
                     </tbody>
                     <tbody v-else>
-                        <tr v-for="(list,index) in paginatedData" v-bind:key="list.id" class="fs-11" @click="view(list)">
+                        <tr v-for="(list,index) in paginatedData" v-bind:key="list.id" class="fs-11">
                             <td class="text-center">{{index + 1}}</td>
                             <td>
                                 <h5 class="fs-11 mb-0 text-dark">{{ list.scholar.firstname }} {{ list.scholar.lastname }}</h5>
@@ -38,42 +42,13 @@
                             <td class="text-center">
                                 <span :class="'badge bg-secondary bg-'+list.status.color">{{list.status.name}}</span>
                             </td>
+                            <td class="text-center">
+                                <b-button @click="view(list)" variant="soft-primary" v-b-tooltip.hover title="View" size="sm" class="edit-list me-1"><i class="ri-eye-fill align-bottom"></i> </b-button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <!-- <ul class="list-group list-group-flush border-dashed mb-0" v-if="keyword != ''">
-                <li class="list-group-item d-flex align-items-center" v-for="(user, index) of  filteredArray" :key="index">
-                    <div class="flex-shrink-0">
-                        <img :src="currentUrl+'/images/avatars/'+user.scholar.avatar" class="rounded-circle avatar-xs" alt="" />
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <h6 class="fs-13 mb-0">{{ user.scholar.firstname }} {{ user.scholar.lastname }}</h6>
-                        <p class="text-muted fs-12 mb-0">{{user.scholar.spas_id}}</p>
-                    </div>
-                    <div class="flex-shrink-0 text-end">
-                        <button class="btn btn-warning btn-sm  w-100" type="button">
-                            <div class="btn-content"><i class="ri-error-warning-fill align-bottom me-1"></i> View</div>
-                        </button>
-                    </div>
-                </li>
-            </ul>
-            <ul class="list-group list-group-flush border-dashed mb-0" v-else>
-                <li class="list-group-item d-flex align-items-center" v-for="(user, index) of  paginatedData" :key="index">
-                    <div class="flex-shrink-0">
-                        <img :src="currentUrl+'/images/avatars/'+user.scholar.avatar" class="rounded-circle avatar-xs" alt="" />
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <h6 class="fs-13 mb-0">{{ user.scholar.firstname }} {{ user.scholar.lastname }}</h6>
-                        <p class="text-muted fs-12 mb-0">{{user.scholar.spas_id}}</p>
-                    </div>
-                    <div class="flex-shrink-0 text-end">
-                        <button @click="view(user)" class="btn btn-warning btn-sm  w-100" type="button">
-                            <div class="btn-content"><i class="ri-error-warning-fill align-bottom me-1"></i> View</div>
-                        </button>
-                    </div>
-                </li>
-            </ul> -->
             <hr class="text-muted"/>
             <nav aria-label="Page navigation example" v-if="scholars.length != 0">
                 <ul class="pagination justify-content-center">
@@ -116,10 +91,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(list,index) in scholar.subjects" v-bind:key="list.id" class="fs-11">
+                        <tr v-for="(list,index) in scholar.subjects" v-bind:key="list.id" class="fs-12">
                             <td class="text-center">{{index + 1}}</td>
                             <td class="text-center">
-                                <h5 class="fs-11 mb-0 text-dark">{{list.code}}</h5>
+                                <h5 class="fs-12 mb-0 text-dark">{{list.code}}</h5>
                             </td>
                             <td class="text-center">{{list.subject}}</td>
                             <td class="text-center">{{list.unit}}</td>
@@ -131,7 +106,7 @@
                 </table>
             </div>
             <hr class="text-muted"/>
-            <div class="form-check mb-2">
+            <div class="form-check mb-2 mt-4">
                 <input class="form-check-input" type="radio" v-model="option" value="1" id="1">
                 <label class="form-check-label" for="1">Mark as Checked <span class="fs-11 text-muted">(This will hide from the list of termination)</span></label>
             </div>
@@ -187,6 +162,20 @@
                 this.viewScholar = false;
                 this.scholars = data;
                 this.showModal = true;
+            },
+            create(){
+                this.isLoading = true;
+                axios.post(this.currentUrl + '/monitoring', {
+                    enrollment_id: this.scholar.id,
+                    scholar_id: this.scholar.scholar.id,
+                    type: 'termination',
+                    option: this.option
+                })
+                .then(response => {
+                    this.isLoading = false;
+                    this.hide();
+                })
+                .catch(err => console.log(err));
             },
             nextPage() {
                 if (this.currentPage < this.totalPages) {
