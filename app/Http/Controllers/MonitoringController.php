@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Scholar;
 use Illuminate\Http\Request;
+use App\Http\Traits\Monitoring\Save;
 use App\Http\Traits\Monitoring\Count;
 use App\Http\Traits\Monitoring\Viewing;
 
 class MonitoringController extends Controller
 {
-    use Count, Viewing; 
+    use Count, Viewing, Save; 
 
     public function index(Request $request){
         $type = $request->type;
@@ -47,6 +48,14 @@ class MonitoringController extends Controller
             break;
             default : 
             return inertia('Modules/Monitoring/Index');
+        }
+    }
+
+    public function store(Request $request){
+        switch($request->type){
+            case 'checked':
+                return $this->checked($request);
+            break;
         }
     }
 }

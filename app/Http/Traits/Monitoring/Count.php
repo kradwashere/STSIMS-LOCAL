@@ -12,6 +12,7 @@ use App\Models\SchoolSemester;
 use App\Models\ScholarBenefit;
 use App\Models\ScholarEnrollment;
 use App\Http\Resources\MonitoringResource;
+use App\Http\Resources\Monitoring\TerminationResource;
 
 trait Count { 
     
@@ -49,7 +50,18 @@ trait Count {
     }
 
     public static function termination($request){
-        $data = ScholarEnrollment::withCount([
+        $data = ScholarEnrollment::select('id','scholar_id','semester_id','level_id')
+        ->with('level:id,name,others')
+        ->with('semester:id,academic_year,year,semester_id','semester.semester:id,name,others')
+        ->with('scholar:id,spas_id','scholar.profile:scholar_id,firstname,middlename,lastname')
+        ->with('scholar.status:id,name,color,others')
+        ->with([
+            'lists' => function ($query) {
+                $query->select('enrollment_id','code','subject','unit')
+                ->where('is_failed', 1); // Include only 'lists' where is_failed is 1
+            }
+        ])
+        ->withCount([
         'lists' => function ($query) {
             $query->where('is_failed',1)->groupBy('enrollment_id');
         }])
@@ -64,11 +76,14 @@ trait Count {
                 $query->where('is_checked',0);
             });
         })
-        ->having('lists_count', '>', 1)
-        ->pluck('scholar_id');
+        ->having('lists_count','>', 1)
+        ->get();
 
-        $scholars = Scholar::with('profile:id,scholar_id,firstname,lastname,middlename')->whereIn('id',$data)->get();
-        return MonitoringResource::collection($scholars);
+        // return $data;
+        return TerminationResource::collection($data);
+
+        // $scholars = Scholar::with('profile:id,scholar_id,firstname,lastname,middlename')->whereIn('id',$data)->get();
+        // return MonitoringResource::collection($scholars);
     }
 
 

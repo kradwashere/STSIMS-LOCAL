@@ -1,6 +1,6 @@
 <template>
 <hr class="text-muted mt-n1"/>
-    <table class="table table-bordered table-nowrap align-middle mb-0">
+    <table class="table tablez table-bordered table-nowrap align-middle mb-0">
         <thead class="table-light">
             <tr class="fs-11">
                 <th class="text-center" width="4%">#</th>
@@ -28,8 +28,8 @@
                 </td> -->
                 <td class="text-center fs-12">{{check2(list.benefits)}}</td>
                 <td class="text-center">
-                    <span v-if="!list.status.is_completed"><i class="text-danger ri-close-circle-fill"></i></span>
-                    <span v-else><i class="text-success ri-close-circle-fill"></i></span>
+                    <span v-if="!list.status.is_completed"><i class="text-danger ri-close-circle-fill" v-b-tooltip.hover title="Grades and Benefits not completed"></i></span>
+                    <span v-else><i class="text-success ri-checkbox-circle-fill" v-b-tooltip.hover title="Grades and Benefits completed"></i></span>
                 </td>
                 <td>
                     <button @click="viewGrades(list)" class="btn btn-sm btn-label me-1" :class="(list.status.is_grades_completed == 1) ? 'btn-success' : 'btn-light' " type="button">

@@ -9,7 +9,7 @@
                 <p class="mb-2">We have <span class="fw-semibold text-success">{{released}}</span> release that has not been checked.</p>
                 <p class="text-muted fs-11 mb-4">This will update the released benefit status of the scholars. Please do it regularly to monitor the scholars correctly and update their benefit status.</p>
                 <div class="hstack gap-2 justify-content-center mt-3">
-                    <b-link href="javascript:void(0);" class="btn btn-sm btn-success">Please update the status now.</b-link>
+                    <b-link @click="confirm()" href="javascript:void(0);" class="btn btn-sm btn-success">Please update the status now.</b-link>
                 </div>
             </div>
         </div>
@@ -23,6 +23,7 @@
             return {
                 currentUrl: window.location.origin,
                 showModal: false,
+                isLoading: false,
                 released: 0
             }
         },
@@ -30,6 +31,20 @@
             show(data) {
                 this.released = data;
                 this.showModal = true;
+            },
+            confirm(){
+                this.isLoading = true;
+                axios.post(this.currentUrl + '/monitoring', {
+                    type: 'checked'
+                })
+                .then(response => {
+                    this.isLoading = false;
+                    this.hide();
+                })
+                .catch(err => console.log(err));
+            },
+            hide(){
+                this.showModal = false;
             }
         }
     }

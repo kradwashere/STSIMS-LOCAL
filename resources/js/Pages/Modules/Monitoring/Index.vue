@@ -48,26 +48,6 @@
                 </ul>
             </div>
             <hr class="text-muted mb-0 mt-3"/>
-            <!-- <ul class="nav nav-tabs nav-tabs-custom nav-success" role="tablist">
-                <li class="nav-item">
-                    <b-link class="nav-link active All py-3" data-bs-toggle="tab" id="All" href="#home1"
-                        role="tab" aria-selected="true">
-                        <i class="ri-team-fill me-1 align-bottom"></i>Ongoing Scholars
-                    </b-link>
-                </li>
-                <li class="nav-item">
-                    <b-link class="nav-link py-3" data-bs-toggle="tab" id="Pending"
-                        href="#pending" role="tab">
-                        <i class="ri-emotion-fill me-1 align-bottom"></i> Undergraduate
-                    </b-link>
-                </li>
-                <li class="nav-item">
-                    <b-link class="nav-link py-3" data-bs-toggle="tab" id="Ongoing" href="#ongoing"
-                        role="tab" aria-selected="false">
-                        <i class="ri-emotion-line me-1 align-bottom"></i>JLSS
-                    </b-link>
-                </li>
-            </ul> -->
             <div class="table-responsive">
                 <table class="table table-nowrap align-middle">
                     <thead class="table-light fs-11">
@@ -76,7 +56,6 @@
                             <th style="width: 20%;">Name</th>
                             <th class="text-center" style="width: 15%;">Enrollment</th>
                             <th class="text-center" style="width: 15%;">Benefits</th>
-                            <!-- <th class="text-center" style="width: 15%;">Course</th> -->
                             <th class="text-center" style="width: 15%;">Status</th>
                             <th class="text-center" style="width: 18%;"></th>
                         </tr>
@@ -101,9 +80,6 @@
                             <td class="text-center fs-12" style="cursor: default;">
                                 <span v-b-tooltip.hover :title="user.education.school.name">{{user.education.school.shortcut}}</span>
                             </td>
-                            <!-- <td class="text-center fs-12" style="cursor: default;">
-                                <span v-b-tooltip.hover :title="user.education.course.name">{{firstLetters(user.education.course.name)}}</span>
-                            </td> -->
                             <td class="text-center fs-11">
                                 <span :class="'badge '+user.status.color+' '+user.status.others">{{user.status.name}}</span>
                             </td>
@@ -183,7 +159,7 @@ export default {
             axios.get(page_url, {
                 params: {
                     type: 'lists',
-                    counts: ((window.innerHeight-400)/56),
+                    counts: ((window.innerHeight-450)/56),
                     status: this.status,
                     keyword: this.keyword
                 }

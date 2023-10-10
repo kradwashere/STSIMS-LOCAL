@@ -40,7 +40,7 @@
 
 <script>
 import {VMoney} from 'v-money'
-import Amount from "@/Shared/Components/Amount.vue";
+    import Amount from "@/Shared/Components/Amount.vue";
 import Multiselect from '@suadelabs/vue3-multiselect';
 export default {
     components : { Multiselect, Amount },

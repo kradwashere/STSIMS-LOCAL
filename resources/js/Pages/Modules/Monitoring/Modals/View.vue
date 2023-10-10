@@ -243,11 +243,11 @@ export default {
 }
 </script>
 <style>
-    table .unselectable {
+    table .unselectablez {
         background-color: #f9f9f9;
         cursor: not-allowed;
     }
-    .table td {
+    .tablez td {
         padding: 0.55rem 0.55rem;
     }
 </style>

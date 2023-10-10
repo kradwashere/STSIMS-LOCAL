@@ -194,7 +194,7 @@
                     </div>
                 </div>
             </li>
-             <li>
+             <li @click="termination(scholarsTermination)"> 
                 <div class="d-flex align-items-center">
                     <div class="flex-shrink-0">
                         <div class="avatar-xs">
@@ -209,8 +209,8 @@
                     </div>
                     <div class="avatar-group">
                         <div class="avatar-group-item" v-for="user in scholarsTermination" v-bind:key="user.id">
-                            <a class="d-inline-block" v-b-tooltip.hover :title="user.firstname+' '+user.lastname">
-                                <img :src="currentUrl+'/images/avatars/'+user.avatar" alt="" class="rounded-circle avatar-xxs">
+                            <a class="d-inline-block" v-b-tooltip.hover :title="user.scholar.firstname+' '+user.scholar.lastname">
+                                <img :src="currentUrl+'/images/avatars/'+user.scholar.avatar" alt="" class="rounded-circle avatar-xxs">
                             </a>
                         </div>
                         <div class="avatar-group-item" v-if="counts.termination.length > 0"> 
@@ -225,9 +225,12 @@
             </li>
         </ul>
     </div>
+    <Termination ref="termination" />
 </template>
 <script>
+import Termination from './Modals/Sub/Termination.vue';
 export default {
+    components : { Termination },
     props: ['semester_year'],
     data(){
         return {
@@ -271,6 +274,9 @@ export default {
             })
             .catch(err => console.log(err));
         },
+        termination(data){
+            this.$refs.termination.show(data);
+        }
     }
 }
 </script>
