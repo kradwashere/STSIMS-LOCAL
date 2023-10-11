@@ -84,7 +84,6 @@ export default {
             this.counts = [];
 
             this.breakdown = data;
-            console.log(data);
 
             this.breakdown.benefits.map((list) => {
                 if (!this.headers.includes(list.benefit.short)) {

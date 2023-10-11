@@ -15,7 +15,7 @@
                                 </div>
                                 <div class="col-10">
                                     <div class="text-primary mt-1">
-                                        <h4>DOST - STSIMS</h4>
+                                        <h4>DOST - STSIMS (Region)</h4>
                                         <p class="mt-n2">Sign In to continue</p>
                                     </div>
                                 </div>
