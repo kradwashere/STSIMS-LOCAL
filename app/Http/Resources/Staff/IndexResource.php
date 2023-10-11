@@ -8,7 +8,9 @@ class IndexResource extends JsonResource
 {
     public function toArray($request)
     {
-        $this->profile->profileable->type = $this->profile->profileable_type;
+        if($this->profile->profileable){
+            $this->profile->profileable->type = $this->profile->profileable_type;
+        }
         return [
             'id' => $this->id,
             'username' => $this->username,

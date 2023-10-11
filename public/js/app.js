@@ -3645,7 +3645,6 @@ __webpack_require__.r(__webpack_exports__);
       this.showModal = true;
       this.counts = [];
       this.breakdown = data;
-      console.log(data);
       this.breakdown.benefits.map(function (list) {
         if (!_this.headers.includes(list.benefit["short"])) {
           _this.headers.push(list.benefit["short"]);
@@ -10390,7 +10389,7 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   "class": "col-10"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-primary mt-1"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "DOST - STSIMS"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "DOST - STSIMS (Region)"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "mt-n2"
 }, "Sign In to continue")])])], -1 /* HOISTED */);
 var _hoisted_4 = {
